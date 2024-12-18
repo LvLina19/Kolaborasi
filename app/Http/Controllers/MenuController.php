@@ -13,19 +13,9 @@ class MenuController extends Controller
      */
     public function index()
     {
-        // $data['menu'] = \App\Models\Menu::latest()->paginate(10);
+        $data['menu'] = \App\Models\Menu::latest()->paginate(10);
         // return view('index', $data);
-        return view('index');
-    }
-
-    public function menu()
-    {
-        return view('menu');
-    }
-
-    public function about()
-    {
-        return view('about');
+        return $data;
     }
 
     /**

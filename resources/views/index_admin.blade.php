@@ -93,10 +93,10 @@
                 <a class="nav-link" href="{{ route('admin.index') }}">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ route('menu.menu') }}">Menu</a>
+                <a class="nav-link" href="{{ route('admin.menu') }}">Menu</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ route('menu.about') }}">About</a>
+                <a class="nav-link" href="{{ route('admin.about') }}">About</a>
               </li>
             </ul>
             <ul class="navbar-nav ml-auto"> 
@@ -109,9 +109,10 @@
               </li> 
               @else 
               <li class="nav-item"> 
-                <a class="nav-link" href="#" onclick="event.preventDefault(); showLogoutModal();">Logout</a>
-              </li> 
+                <a class="nav-link" href="#" onclick="event.preventDefault(); showLogoutModal();"><i class="fa fa-sign-out">Logout</i></a>
+              </li>
               @endguest 
+              <li class="nav-item"> <a class="nav-link" href="{{ route('register') }}"> <i class="fa fa-user-plus"></i> Daftar Akun </a> </li>
             </ul>
           </div>
           <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true"> 

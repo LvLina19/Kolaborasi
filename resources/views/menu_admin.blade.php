@@ -13,9 +13,11 @@
   <meta name="author" content="" />
   <link rel="shortcut icon" href="build/assets/images/favicon.png" type="">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
   <title> Kedai Kopi Family </title>
-
+  
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="build/assets/css/bootstrap.css" />
 
@@ -28,12 +30,43 @@
 
   <!-- Custom styles for this template -->
   <link href="build/assets/css/style.css" rel="stylesheet" />
+  
   <!-- responsive style -->
   <link href="build/assets/css/responsive.css" rel="stylesheet" />
-
+  
+  <!-- Styles untuk Modal --> 
+  <style>
+    /* Style khusus untuk modal logout */
+    .modal {
+      z-index: 1050; /* Pastikan modal berada di atas elemen lain */
+    }
+    .modal-header {
+        background-color: #1A2130;
+        color: white; /* Warna teks */
+        border-bottom: 2px solid #1A2130; /* Garis bawah header */
+    }
+    .modal-footer {
+        border-top: none; /* Hilangkan garis atas footer */
+    }
+    .btn-primary {
+        background-color: #1A2130;
+        border-color: #BCCCDC;
+    }
+    .btn-primary:hover {
+        background-color: #BCCCDC; /* Warna hover */
+    }
+    .btn-secondary:hover {
+        background-color: #6c757d; /* Warna hover untuk batal */
+    }
+    .modal-body {
+        font-size: 1.1rem; /* Perbesar teks */
+        text-align: center; /* Tengahkan teks */
+        padding: 2rem; /* Ruang di sekitar teks */
+    }
+  </style>
 </head>
 
-<body>
+<body class="sub_page">
 
   <div class="hero_area">
     <div class="bg-box">
@@ -42,8 +75,8 @@
     <!-- header section strats -->
     <header class="header_section">
       <div class="container">
-        <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="{{ route('arah.index') }}">
+        <nav class="navbar navbar-expand-lg custom_nav-container sticky-top">
+          <a class="navbar-brand" href="{{ route('admin.index') }}">
             <span>
               Kedai Kopi Family
             </span>
@@ -54,115 +87,63 @@
           </button>
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav  mx-auto ">
+            <ul class="navbar-nav mx-auto ">
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.index') }}">Home</a>
+              </li>
               <li class="nav-item active">
-                <a class="nav-link" href="{{ route('arah.index') }}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{ route('admin.menu') }}">Menu <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ route('arah.menu') }}">Menu</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ route('arah.about') }}">About</a>
+                <a class="nav-link" href="{{ route('admin.about') }}">About</a>
               </li>
             </ul>
             <ul class="navbar-nav ml-auto"> 
               @guest 
               <li class="nav-item"> 
                 <a class="nav-link" href="{{ route('login') }}"> 
-                  <i class="fa fa-user"></i> Login 
+                  <i class="fa fa-user"></i> 
+                  Login 
                 </a> 
               </li> 
               @else 
               <li class="nav-item"> 
-                <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); 
-                document.getElementById('logout-form').submit();"> Logout 
-                </a> 
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;"> 
-                  @csrf 
-                </form> 
-              </li> @endguest 
+                <a class="nav-link" href="#" onclick="event.preventDefault(); showLogoutModal();"><i class="fa fa-sign-out">Logout</i></a>
+              </li>
+              @endguest 
+              <li class="nav-item"> <a class="nav-link" href="{{ route('register') }}"> <i class="fa fa-user-plus"></i> Daftar Akun </a> </li>
             </ul>
           </div>
+          <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true"> 
+            <div class="modal-dialog" role="document"> 
+              <div class="modal-content"> 
+                <div class="modal-header"> 
+                  <h5 class="modal-title" id="logoutModalLabel">Are Ya Sure?</h5> 
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
+                    <span aria-hidden="true">&times;</span> 
+                  </button> 
+                </div> 
+                <div class="modal-body"> Apakah kamu yakin ingin logout? </div> 
+                <div class="modal-footer"> 
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Batal</button> 
+                  <button type="button" class="btn btn-primary" onclick="confirmLogout();">Logout</button> 
+                </div> 
+              </div> 
+            </div> 
+          </div>
+          <!-- Form Logout Tersembunyi -->
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+          </form>
         </nav>
       </div>
     </header>
     <!-- end header section -->
-    <!-- slider section -->
-    <section class="slider_section ">
-      <div id="customCarousel1" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="container ">
-              <div class="row">
-                <div class="col-md-7 col-lg-6 ">
-                  <div class="detail-box">
-                    <h1>
-                      Kedai Kopi Family
-                    </h1>
-                    <p>
-                      Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item ">
-            <div class="container ">
-              <div class="row">
-                <div class="col-md-7 col-lg-6 ">
-                  <div class="detail-box">
-                    <h1>
-                      Kedai Kopi Family
-                    </h1>
-                    <p>
-                      Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="container ">
-              <div class="row">
-                <div class="col-md-7 col-lg-6 ">
-                  <div class="detail-box">
-                    <h1>
-                      Kedai Kopi Family
-                    </h1>
-                    <p>
-                      Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="container">
-          <ol class="carousel-indicators">
-            <li data-target="#customCarousel1" data-slide-to="0" class="active"></li>
-            <li data-target="#customCarousel1" data-slide-to="1"></li>
-            <li data-target="#customCarousel1" data-slide-to="2"></li>
-          </ol>
-        </div>
-      </div>
-
-    </section>
-    <!-- end slider section -->
   </div>
-
-  <!-- Pembatas section --> 
-
-  <section class="offer_section layout_padding-bottom">
-  </section>
-
-  <!-- end Pembatas section -->
 
   <!-- food section -->
 
-  <section class="food_section layout_padding-bottom">
+  <section class="food_section layout_padding">
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
@@ -390,156 +371,6 @@
 
   <!-- end food section -->
 
-  <!-- about section -->
-
-  <section class="about_section layout_padding">
-    <div class="container  ">
-
-      <div class="row">
-        <div class="col-md-6 ">
-          <div class="img-box">
-            <img src="build/assets/images/about-img.png" alt="">
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="detail-box">
-            <div class="heading_container">
-              <h2>
-                Kedai Kopi Family
-              </h2>
-            </div>
-            <p>
-              There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration
-              in some form, by injected humour, or randomised words which don't look even slightly believable. If you
-              are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in
-              the middle of text. All
-            </p>
-            <a href="">
-              Read More
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- end about section -->
-
-  <!-- book section -->
-  <section class="book_section layout_padding">
-    <div class="container">
-      <div class="heading_container">
-        <h2>
-          Book A Table
-        </h2>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form_container">
-            <form action="">
-              <div>
-                <input type="text" class="form-control" placeholder="Your Name" />
-              </div>
-              <div>
-                <input type="text" class="form-control" placeholder="Phone Number" />
-              </div>
-              <div>
-                <input type="email" class="form-control" placeholder="Your Email" />
-              </div>
-              <div>
-                <select class="form-control nice-select wide">
-                  <option value="" disabled selected>
-                    How many persons?
-                  </option>
-                  <option value="">
-                    2
-                  </option>
-                  <option value="">
-                    3
-                  </option>
-                  <option value="">
-                    4
-                  </option>
-                  <option value="">
-                    5
-                  </option>
-                </select>
-              </div>
-              <div>
-                <input type="date" class="form-control">
-              </div>
-              <div class="btn_box">
-                <button>
-                  Book Now
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="map_container ">
-            <div id="googleMap"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- end book section -->
-
-  <!-- client section -->
-
-  <section class="client_section layout_padding-bottom">
-    <div class="container">
-      <div class="heading_container heading_center psudo_white_primary mb_45">
-        <h2>
-          What Says Our Customers
-        </h2>
-      </div>
-      <div class="carousel-wrap row ">
-        <div class="owl-carousel client_owl-carousel">
-          <div class="item">
-            <div class="box">
-              <div class="detail-box">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
-                </p>
-                <h6>
-                  Moana Michell
-                </h6>
-                <p>
-                  magna aliqua
-                </p>
-              </div>
-              <div class="img-box">
-                <img src="build/assets/images/client1.jpg" alt="" class="box-img">
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="box">
-              <div class="detail-box">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
-                </p>
-                <h6>
-                  Mike Hamell
-                </h6>
-                <p>
-                  magna aliqua
-                </p>
-              </div>
-              <div class="img-box">
-                <img src="build/assets/images/client2.jpg" alt="" class="box-img">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- end client section -->
-
   <!-- footer section -->
   <footer class="footer_section">
     <div class="container">
@@ -616,6 +447,20 @@
   </script>
   <!-- End Google Map -->
 
+  {{-- modals popup logout --}}
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> 
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  
+  <script> 
+    function showLogoutModal() { 
+      $('#logoutModal').modal('show'); 
+    }
+
+    function confirmLogout() {
+      document.getElementById('logout-form').submit();
+    } 
+  </script>
 </body>
 
 </html>

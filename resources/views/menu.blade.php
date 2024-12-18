@@ -42,7 +42,7 @@
     <header class="header_section">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="{{ route('menu.index') }}">
+          <a class="navbar-brand" href="{{ route('arah.index') }}">
             <span>
               Kedai Kopi Family
             </span>
@@ -55,14 +55,31 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav  mx-auto ">
               <li class="nav-item">
-                <a class="nav-link" href="{{ route('menu.index') }}">Home </a>
+                <a class="nav-link" href="{{ route('arah.index') }}">Home </a>
               </li>
               <li class="nav-item active">
-                <a class="nav-link" href="{{ route('menu.menu') }}">Menu <span class="sr-only">(current)</span> </a>
+                <a class="nav-link" href="{{ route('arah.menu') }}">Menu <span class="sr-only">(current)</span> </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ route('menu.about') }}">About</a>
+                <a class="nav-link" href="{{ route('arah.about') }}">About</a>
               </li>
+            </ul>
+            <ul class="navbar-nav ml-auto"> 
+              @guest 
+              <li class="nav-item"> 
+                <a class="nav-link" href="{{ route('login') }}"> 
+                  <i class="fa fa-user"></i> Login 
+                </a> 
+              </li> 
+              @else 
+              <li class="nav-item"> 
+                <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); 
+                document.getElementById('logout-form').submit();"> Logout 
+                </a> 
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;"> 
+                  @csrf 
+                </form> 
+              </li> @endguest 
             </ul>
           </div>
         </nav>

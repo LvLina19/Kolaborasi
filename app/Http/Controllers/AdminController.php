@@ -15,6 +15,15 @@ class AdminController extends Controller
     {
         return view('index_admin');
     }
+    public function menu()
+    {
+        return view('menu_admin');
+    }
+
+    public function about()
+    {
+        return view('about_admin');
+    }
 
     /**
      * Show the form for creating a new resource.
