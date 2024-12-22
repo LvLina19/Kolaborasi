@@ -8,13 +8,10 @@
   <!-- Mobile Metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <!-- Site Metas -->
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
   <link rel="shortcut icon" href="build/assets/images/favicon.png" type="">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
   <title> Kedai Kopi Family </title>
   
@@ -64,82 +61,85 @@
         padding: 2rem; /* Ruang di sekitar teks */
     }
   </style>
+  <!-- header section strats -->
+  <header class="header_section" style="background-color: #131314">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg custom_nav-container sticky-top">
+        <a class="navbar-brand" href="{{ route('admin.index') }}">
+          <span>
+            Kedai Kopi Family
+          </span>
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mx-auto ">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ route('admin.index') }}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="{{ route('admin.menu') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Menu
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{{ route('admin.menu') }}">Lihat Menu</a>
+                  <a class="dropdown-item" href="{{ route('menu.create') }}">Tambah Menu</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('admin.about') }}">About</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ml-auto"> 
+            @guest 
+            <li class="nav-item"> 
+              <a class="nav-link" href="{{ route('login') }}"> 
+                <i class="fa fa-user"></i> 
+                Login 
+              </a> 
+            </li> 
+            @else 
+            <li class="nav-item"> 
+              <a class="nav-link" href="#" onclick="event.preventDefault(); showLogoutModal();"><i class="fa fa-sign-out"> Logout</i></a>
+            </li>
+            @endguest 
+            <li class="nav-item"> 
+              <a class="nav-link" href="{{ route('register') }}"> <i class="fa fa-user-plus"></i> Daftar Akun</a> 
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true"> 
+      <div class="modal-dialog" role="document"> 
+        <div class="modal-content"> 
+          <div class="modal-header"> 
+            <h5 class="modal-title" id="logoutModalLabel">Are Ya Sure?</h5> 
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
+              <span aria-hidden="true">&times;</span> 
+            </button> 
+          </div> 
+          <div class="modal-body"> Apakah kamu yakin ingin logout? </div> 
+          <div class="modal-footer"> 
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Batal</button> 
+            <button type="button" class="btn btn-primary" onclick="confirmLogout();">Logout</button> 
+          </div> 
+        </div> 
+      </div> 
+    </div>
+    <!-- Form Logout Tersembunyi -->
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+      @csrf
+    </form>
+  </header>
+  <!-- end header section -->
 
 </head>
 
 <body>
-
   <div class="hero_area">
     <div class="bg-box">
       <img src="build/assets/images/hero-bg.jpg" alt="">
     </div>
-    <!-- header section strats -->
-    <header class="header_section">
-      <div class="container">
-        <nav class="navbar navbar-expand-lg custom_nav-container sticky-top">
-          <a class="navbar-brand" href="{{ route('admin.index') }}">
-            <span>
-              Kedai Kopi Family
-            </span>
-          </a>
-
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class=""> </span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mx-auto ">
-              <li class="nav-item active">
-                <a class="nav-link" href="{{ route('admin.index') }}">Home <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.menu') }}">Menu</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.about') }}">About</a>
-              </li>
-            </ul>
-            <ul class="navbar-nav ml-auto"> 
-              @guest 
-              <li class="nav-item"> 
-                <a class="nav-link" href="{{ route('login') }}"> 
-                  <i class="fa fa-user"></i> 
-                  Login 
-                </a> 
-              </li> 
-              @else 
-              <li class="nav-item"> 
-                <a class="nav-link" href="#" onclick="event.preventDefault(); showLogoutModal();"><i class="fa fa-sign-out">Logout</i></a>
-              </li>
-              @endguest 
-              <li class="nav-item"> <a class="nav-link" href="{{ route('register') }}"> <i class="fa fa-user-plus"></i> Daftar Akun </a> </li>
-            </ul>
-          </div>
-          <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true"> 
-            <div class="modal-dialog" role="document"> 
-              <div class="modal-content"> 
-                <div class="modal-header"> 
-                  <h5 class="modal-title" id="logoutModalLabel">Are Ya Sure?</h5> 
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
-                    <span aria-hidden="true">&times;</span> 
-                  </button> 
-                </div> 
-                <div class="modal-body"> Apakah kamu yakin ingin logout? </div> 
-                <div class="modal-footer"> 
-                  <button type="button" class="btn btn-primary" data-dismiss="modal">Batal</button> 
-                  <button type="button" class="btn btn-primary" onclick="confirmLogout();">Logout</button> 
-                </div> 
-              </div> 
-            </div> 
-          </div>
-          <!-- Form Logout Tersembunyi -->
-          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-          </form>
-        </nav>
-      </div>
-    </header>
-    <!-- end header section -->
+    
     <!-- slider section -->
     <section class="slider_section ">
       <div id="customCarousel1" class="carousel slide" data-ride="carousel">
@@ -670,8 +670,15 @@
 
   {{-- modals popup logout --}}
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> 
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
   
   <script> 
     function showLogoutModal() { 

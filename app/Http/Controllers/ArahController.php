@@ -6,17 +6,17 @@ use Illuminate\Http\Request;
 
 class ArahController extends Controller
 {
-    public function index()
+    public function indexMakanan()
     {
         return view('index');
     }
 
-    public function menu()
+    public function menuMakanan()
     {
         return view('menu');
     }
 
-    public function about()
+    public function aboutMakanan()
     {
         return view('about');
     }

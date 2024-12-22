@@ -42,7 +42,7 @@
     <header class="header_section">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="{{ route('arah.index') }}">
+          <a class="navbar-brand" href="{{ route('arah.indexMakanan') }}">
             <span>
               Kedai Kopi Family
             </span>
@@ -55,13 +55,13 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav  mx-auto ">
               <li class="nav-item">
-                <a class="nav-link" href="{{ route('arah.index') }}">Home </a>
+                <a class="nav-link" href="{{ route('arah.indexMakanan') }}">Home </a>
               </li>
               <li class="nav-item active">
-                <a class="nav-link" href="{{ route('arah.menu') }}">Menu <span class="sr-only">(current)</span> </a>
+                <a class="nav-link" href="{{ route('arah.menuMakanan') }}">Menu <span class="sr-only">(current)</span> </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ route('arah.about') }}">About</a>
+                <a class="nav-link" href="{{ route('arah.aboutMakanan') }}">About</a>
               </li>
             </ul>
             <ul class="navbar-nav ml-auto"> 
