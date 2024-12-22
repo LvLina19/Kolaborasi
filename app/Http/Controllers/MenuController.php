@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Menu;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
+use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
@@ -13,9 +14,9 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $data['menu'] = \App\Models\Menu::latest()->paginate(10);
+        // $data['menu'] = \App\Models\Menu::latest()->paginate(10);
         // return view('index', $data);
-        return $data;
+        // return $data;
     }
 
     /**
@@ -29,9 +30,24 @@ class MenuController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreMenuRequest $request)
+    public function store(Request $request)
     {
-        //
+        $requestData = $request->validate([
+            'id_menu' => 'required|unique:menus,id_menu',
+            'foto' => 'required|image|mimes:jpeg,jpg,png|max:5000',
+            'nama_makanan' => 'required|min:3',
+            'harga' => 'required|numeric',
+        ]);
+
+        $menu = new \App\Models\Menu(); // membuat objek kosong di variabel model
+        $menu->fill($requestData); // mengisi var model dengan data yang sudah ada
+        $menu->foto = $request->file('foto')->store('public'); // mengisi objek path foto
+        $menu->save(); // menyimpan data ke database
+        if ($request->wantsJson()){
+            return response()->json($menu);
+        }
+        flash('Data Sudah Disimpan')->success();
+        return redirect()->route('admin.menu');
     }
 
     /**

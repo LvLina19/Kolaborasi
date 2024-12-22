@@ -18,6 +18,7 @@ Auth::routes();
 Route::middleware([Authenticate::class])->group(function () {
     Route::resource('admin', AdminController::class);
     Route::resource('menu', MenuController::class);
+    Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
     Route::get('/admin/menu', [AdminController::class, 'menu'])->name('admin.menu');
     Route::get('/admin/about', [AdminController::class, 'about'])->name('admin.about');
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');

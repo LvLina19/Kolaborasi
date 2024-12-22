@@ -171,8 +171,6 @@
         }
 
         .form-content input[type=text],
-        .form-content input[type=password],
-        .form-content input[type=email],
         .form-content select {
             width: 100%;
             padding: 9px 20px;
@@ -186,9 +184,34 @@
             color: #8D8D8D;
             -webkit-transition: all 0.3s ease;
             transition: all 0.3s ease;
-            margin-top: 16px;
         }
 
+        .form-control[type="file"] {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        .form-control[type="file"]::before {
+            content: 'Upload';
+            display: inline-block;
+            background: #8D8D8D;
+            color: white;
+            border-radius: 5px;
+            padding: 4px 10px;
+            outline: none;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            cursor: pointer;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .form-control[type="file"]::-webkit-file-upload-button {
+            visibility: hidden;
+        }
 
         .btn-primary {
             background-color: #6C757D;
@@ -204,6 +227,18 @@
             outline: none !important;
             border: none !important;
             box-shadow: none;
+        }
+
+        .form-body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 87vh;
+        }
+
+        .form-holder {
+            width: 100%;
+            max-width: 600px;
         }
 
         .form-content textarea {
@@ -248,72 +283,77 @@
     <!-- header section strats -->
     <header class="header_section" style="background-color: #131314">
         <div class="container">
-          <nav class="navbar navbar-expand-lg custom_nav-container sticky-top">
-            <a class="navbar-brand" href="{{ route('admin.index') }}">
-              <span style="font-family: Dancing Script;">
-                Kedai Kopi Family
-              </span>
-            </a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mx-auto ">
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ route('admin.index') }}">Home</span></a>
-                </li>
-                <li class="nav-item dropdown active">
-                  <a class="nav-link dropdown-toggle" href="{{ route('admin.menu') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Menu
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="{{ route('admin.menu') }}">Lihat Menu</a>
-                      <a class="dropdown-item" href="{{ route('menu.create') }}">Tambah Menu <span class="sr-only">(current)</a>
-                  </div>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ route('admin.about') }}">About</a>
-                </li>
-              </ul>
-              <ul class="navbar-nav ml-auto"> 
-                @guest 
-                <li class="nav-item"> 
-                  <a class="nav-link" href="{{ route('login') }}"> 
-                    <i class="fa fa-user"></i> 
-                    Login 
-                  </a> 
-                </li> 
-                @else 
-                <li class="nav-item"> 
-                  <a class="nav-link" href="#" onclick="event.preventDefault(); showLogoutModal();"><i class="fa fa-sign-out"> Logout</i></a>
-                </li>
-                @endguest 
-                <li class="nav-item"> 
-                  <a class="nav-link" href="{{ route('register') }}"> <i class="fa fa-user-plus"></i> Daftar Akun</a> 
-                </li>
-              </ul>
-            </div>
-          </nav>
+            <nav class="navbar navbar-expand-lg custom_nav-container sticky-top">
+                <a class="navbar-brand" href="{{ route('admin.index') }}">
+                    <span style="font-family: Dancing Script;">
+                        Kedai Kopi Family
+                    </span>
+                </a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto ">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.index') }}">Home</span></a>
+                        </li>
+                        <li class="nav-item dropdown active">
+                            <a class="nav-link dropdown-toggle" href="{{ route('admin.menu') }}" id="navbarDropdown"
+                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Menu
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('admin.menu') }}">Lihat Menu</a>
+                                <a class="dropdown-item" href="{{ route('menu.create') }}">Tambah Menu <span
+                                        class="sr-only">(current)</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.about') }}">About</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        @guest
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">
+                                    <i class="fa fa-user"></i>
+                                    Login
+                                </a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="event.preventDefault(); showLogoutModal();"><i
+                                        class="fa fa-sign-out"> Logout</i></a>
+                            </li>
+                        @endguest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}"> <i class="fa fa-user-plus"></i> Daftar
+                                Akun</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </div>
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true"> 
-          <div class="modal-dialog" role="document"> 
-            <div class="modal-content"> 
-              <div class="modal-header"> 
-                <h5 class="modal-title" id="logoutModalLabel">Are Ya Sure?</h5> 
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
-                  <span aria-hidden="true">&times;</span> 
-                </button> 
-              </div> 
-              <div class="modal-body"> Apakah kamu yakin ingin logout? </div> 
-              <div class="modal-footer"> 
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Batal</button> 
-                <button type="button" class="btn btn-primary" onclick="confirmLogout();">Logout</button> 
-              </div> 
-            </div> 
-          </div> 
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="logoutModalLabel">Are Ya Sure?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body"> Apakah kamu yakin ingin logout? </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-primary" onclick="confirmLogout();">Logout</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- Form Logout Tersembunyi -->
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-          @csrf
+            @csrf
         </form>
-      </header>
+    </header>
     <!-- end header section -->
 </head>
 
@@ -323,73 +363,43 @@
             <div class="form-holder">
                 <div class="form-content">
                     <div class="form-items">
-                        <h3>MENU BARU?</h3>
+                        <h3 style="font-family: Dancing Script;">MENU BARU?</h3>
                         <p>Isi lah data berikut</p>
-                        <form class="requires-validation" novalidate>
-
-                            <div class="col-md-12">
-                                <input class="form-control" type="text" name="name" placeholder="Full Name"
-                                    required>
-                                <div class="valid-feedback">Username field is valid!</div>
-                                <div class="invalid-feedback">Username field cannot be blank!</div>
+                        <form action="{{ route('menu.store') }}" method="POST" enctype="multipart/form-data"
+                            class="requires-validation" novalidate>
+                            @csrf
+                            <div class="form-group mt-1 mb-3">
+                                <label for="foto">Foto Menu (jpg, png, jpeg)</label>
+                                <input type="file" class="form-control" @error('foto') is-invalid @enderror
+                                    id="foto" name="foto">
+                                <span class="text-danger">{{ $errors->first('foto') }}</span>
                             </div>
-
-                            <div class="col-md-12">
-                                <input class="form-control" type="email" name="email"
-                                    placeholder="E-mail Address" required>
-                                <div class="valid-feedback">Email field is valid!</div>
-                                <div class="invalid-feedback">Email field cannot be blank!</div>
+                            <div class="form-group mt-1 mb-3">
+                                <label for="nama_makanan">Nama Menu</label>
+                                <input type="text" class="form-control" @error('nama_makanan') is-invalid @enderror
+                                    id="nama_makanan" name="nama_makanan" value="{{ old('nama_makanan') }}"
+                                    placeholder="Nama Menu..">
                             </div>
-
-                            <div class="col-md-12">
-                                <select class="form-select mt-3" required>
-                                    <option selected disabled value="">Position</option>
-                                    <option value="jweb">Junior Web Developer</option>
-                                    <option value="sweb">Senior Web Developer</option>
-                                    <option value="pmanager">Project Manager</option>
-                                </select>
-                                <div class="valid-feedback">You selected a position!</div>
-                                <div class="invalid-feedback">Please select a position!</div>
-                            </div>
-
-
-                            <div class="col-md-12">
-                                <input class="form-control" type="password" name="password" placeholder="Password"
-                                    required>
-                                <div class="valid-feedback">Password field is valid!</div>
-                                <div class="invalid-feedback">Password field cannot be blank!</div>
-                            </div>
-
-
-                            <div class="col-md-12 mt-3">
-                                <label class="mb-3 mr-1" for="gender">Gender: </label>
-
-                                <input type="radio" class="btn-check" name="gender" id="male"
-                                    autocomplete="off" required>
-                                <label class="btn btn-sm btn-outline-secondary" for="male">Male</label>
-
-                                <input type="radio" class="btn-check" name="gender" id="female"
-                                    autocomplete="off" required>
-                                <label class="btn btn-sm btn-outline-secondary" for="female">Female</label>
-
-                                <input type="radio" class="btn-check" name="gender" id="secret"
-                                    autocomplete="off" required>
-                                <label class="btn btn-sm btn-outline-secondary" for="secret">Secret</label>
-                                <div class="valid-feedback mv-up">You selected a gender!</div>
-                                <div class="invalid-feedback mv-up">Please select a gender!</div>
+                            <div class="form-group mt-1 mb-3">
+                                <label for="harga">Harga Menu</label>
+                                <input type="text" class="form-control" @error('harga') is-invalid @enderror
+                                    id="harga" name="harga" value="{{ old('harga') }}"
+                                    placeholder="Harga Menu..">
+                                <span class="text-danger">{{ $errors->first('harga') }}</span>
                             </div>
 
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="" id="invalidCheck"
                                     required>
-                                <label class="form-check-label">I confirm that all data are correct</label>
-                                <div class="invalid-feedback">Please confirm that the entered data are all correct!
+                                <label class="form-check-label" for="invalidCheck">Data yang dimasukkan sudah
+                                    benar</label>
+                                <div class="invalid-feedback">Cek kembali data yang dimasukkan!
                                 </div>
                             </div>
 
 
                             <div class="form-button mt-3">
-                                <button id="submit" type="submit" class="btn btn-primary">Register</button>
+                                <button id="submit" type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -452,6 +462,18 @@
                     }, false)
                 })
         })()
+    </script>
+    <script>
+        // Optional JavaScript for additional interactivity 
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!document.getElementById('invalidCheck').checked) {
+                document.querySelector('.invalid-feedback').style.display = 'block';
+            } else {
+                document.querySelector('.invalid-feedback').style.display = 'none';
+                alert('Form submitted successfully!');
+            }
+        });
     </script>
 
 </body>
