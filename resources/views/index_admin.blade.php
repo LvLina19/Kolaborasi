@@ -65,7 +65,7 @@
   <header class="header_section" style="background-color: #131314">
     <div class="container">
       <nav class="navbar navbar-expand-lg custom_nav-container sticky-top">
-        <a class="navbar-brand" href="{{ route('admin.index') }}">
+        <a class="navbar-brand" href="{{ route('menu.index') }}">
           <span>
             Kedai Kopi Family
           </span>
@@ -73,19 +73,19 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mx-auto ">
             <li class="nav-item active">
-              <a class="nav-link" href="{{ route('admin.index') }}">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{{ route('menu.index') }}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="{{ route('admin.menu') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="{{ route('menu.menus') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Menu
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{{ route('admin.menu') }}">Lihat Menu</a>
+                  <a class="dropdown-item" href="{{ route('menu.menus') }}">Lihat Menu</a>
                   <a class="dropdown-item" href="{{ route('menu.create') }}">Tambah Menu</a>
               </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('admin.about') }}">About</a>
+              <a class="nav-link" href="{{ route('menu.about') }}">About</a>
             </li>
           </ul>
           <ul class="navbar-nav ml-auto"> 

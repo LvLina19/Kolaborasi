@@ -68,7 +68,7 @@
   <header class="header_section" style="background-color: #131314">
     <div class="container">
       <nav class="navbar navbar-expand-lg custom_nav-container sticky-top">
-        <a class="navbar-brand" href="{{ route('admin.index') }}">
+        <a class="navbar-brand" href="{{ route('menu.index') }}">
           <span>
             Kedai Kopi Family
           </span>
@@ -76,19 +76,19 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mx-auto ">
             <li class="nav-item active">
-              <a class="nav-link" href="{{ route('admin.index') }}">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{{ route('menu.index') }}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="{{ route('admin.menu') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="{{ route('menu.menus') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Menu
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{{ route('admin.menu') }}">Lihat Menu</a>
+                  <a class="dropdown-item" href="{{ route('menu.menus') }}">Lihat Menu</a>
                   <a class="dropdown-item" href="{{ route('menu.create') }}">Tambah Menu</a>
               </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('admin.about') }}">About</a>
+              <a class="nav-link" href="{{ route('menu.about') }}">About</a>
             </li>
           </ul>
           <ul class="navbar-nav ml-auto"> 
@@ -167,26 +167,24 @@
           <div class="col-sm-6 col-lg-4 all pizza">
             <div class="box">
               <div>
-                <div class="img-box">
-                  <img src="build/assets/images/f1.png" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                    Delicious Pizza
-                  </h5>
-                  <p>
-                    Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
-                  </p>
-                  <div class="options">
-                    <h6>
-                      $20
-                    </h6>
-                  </div>
-                </div>
+
+                @foreach ($menus as $menu) 
+                <div class="img-box"> 
+                  <img src="{{ Storage::url($menu['foto']) }}" alt=""> 
+                </div> 
+                <div class="detail-box"> 
+                  <h5>{{ $menu['nama_makanan'] }}</h5> 
+                  <p>{{ $menu['deskripsi'] ?? 'Deskripsi tidak tersedia' }}</p> <!-- Pastikan tabel memiliki kolom 'deskripsi' jika dibutuhkan --> 
+                  <div class="options"> 
+                    <h6>{{ $menu['harga'] }}</h6> 
+                  </div> 
+                </div> 
+                @endforeach
+                
               </div>
             </div>
           </div>
-          <div class="col-sm-6 col-lg-4 all burger">
+          {{-- <div class="col-sm-6 col-lg-4 all burger">
             <div class="box">
               <div>
                 <div class="img-box">
@@ -361,7 +359,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> --}}
         </div>
       </div>
       <div class="btn-box">

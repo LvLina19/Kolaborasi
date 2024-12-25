@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArahController;
 use Illuminate\Auth\Middleware\Authenticate;
 
@@ -16,12 +15,11 @@ Route::get('/', [ArahController::class, 'indexMakanan'])->name('arah.indexMakana
 Auth::routes();
 
 Route::middleware([Authenticate::class])->group(function () {
-    Route::resource('admin', AdminController::class);
     Route::resource('menu', MenuController::class);
     Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
-    Route::get('/admin/menu', [AdminController::class, 'menu'])->name('admin.menu');
-    Route::get('/admin/about', [AdminController::class, 'about'])->name('admin.about');
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/menu/menu', [MenuController::class, 'menus'])->name('menu.menus');
+    Route::get('/menu/about', [MenuController::class, 'about'])->name('menu.about');
+    Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
 });
 
 Route::post('/logout', function () {

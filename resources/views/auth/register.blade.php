@@ -236,7 +236,7 @@ a:hover {
             <form class="pt-3" method="POST" action="{{ route('register') }}">
                 @csrf
                 <div class="form-group py-2">
-                    <div class="input-field"> <span class="far fa-user p-2"></span> 
+                    <div class="input-field"> <span class="far fa-user p-2"></span>     
                         <input type="text" id="name" name="name" placeholder="Username" required autofocus>
                     </div>
                 </div>

@@ -3,20 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
-use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
-        // $data['menu'] = \App\Models\Menu::latest()->paginate(10);
-        // return view('index', $data);
-        // return $data;
+        return view('index_admin');
+    }
+    
+    public function menus()
+    {
+        $menus = Menu::all()->toArray();
+        if (request()->wantsJson()) {
+            return response()->json($menus);
+        }
+        $data['menu'] = $menus;
+        return view('menu_admin', $data);
+    }
+
+    public function about()
+    {
+        return view('about_admin');
     }
 
     /**
@@ -33,7 +48,6 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         $requestData = $request->validate([
-            'id_menu' => 'required|unique:menus,id_menu',
             'foto' => 'required|image|mimes:jpeg,jpg,png|max:5000',
             'nama_makanan' => 'required|min:3',
             'harga' => 'required|numeric',
@@ -43,11 +57,15 @@ class MenuController extends Controller
         $menu->fill($requestData); // mengisi var model dengan data yang sudah ada
         $menu->foto = $request->file('foto')->store('public'); // mengisi objek path foto
         $menu->save(); // menyimpan data ke database
+
+        Log::info('Data yang diterima: ', $requestData); 
+        Log::info('Menu yang disimpan: ', $menu->toArray());
+
         if ($request->wantsJson()){
             return response()->json($menu);
         }
         flash('Data Sudah Disimpan')->success();
-        return redirect()->route('admin.menu');
+        return redirect()->route('menu.menu');
     }
 
     /**
