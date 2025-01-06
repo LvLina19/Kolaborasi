@@ -9,17 +9,14 @@ use Illuminate\Auth\Middleware\Authenticate;
 // Route::resource('arah', ArahController::class);
 
 Route::get('/daftar', [ArahController::class, 'menuMakanan'])->name('arah.menuMakanan');
-Route::get('/about', [ArahController::class, 'aboutMakanan'])->name('arah.aboutMakanan');
-Route::get('/', [ArahController::class, 'indexMakanan'])->name('arah.indexMakanan');
+Route::get('/list/about', [MenuController::class, 'about'])->name('menu.about');
+Route::get('/', [MenuController::class, 'home'])->name('menu.home');
 
 Auth::routes();
 
 Route::middleware([Authenticate::class])->group(function () {
     Route::resource('menu', MenuController::class);
-    Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
-    Route::get('/menu/menu', [MenuController::class, 'menus'])->name('menu.menus');
-    Route::get('/menu/about', [MenuController::class, 'about'])->name('menu.about');
-    Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
+    Route::get('/daftar/list', [MenuController::class, 'menus'])->name('menu.menus');
 });
 
 Route::post('/logout', function () {

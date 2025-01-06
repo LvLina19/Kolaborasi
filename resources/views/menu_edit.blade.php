@@ -355,27 +355,30 @@
             <div class="form-holder">
                 <div class="form-content">
                     <div class="form-items">
-                        <h3 style="font-family: Dancing Script;">MENU BARU?</h3>
+                        <h3 style="font-family: Dancing Script;">Edit Menu</h3>
                         <p>Isi lah data berikut</p>
-                        <form action="{{ route('menu.store') }}" method="POST" enctype="multipart/form-data"
-                            class="requires-validation" novalidate>
+                        <form action="{{ route('menu.update', $menu->id) }}" method="POST"
+                            enctype="multipart/form-data" class="requires-validation" novalidate>
                             @csrf
+                            @method('PUT')
                             <div class="form-group mt-1 mb-3">
                                 <label for="foto">Foto Menu (jpg, png, jpeg)</label>
                                 <input type="file" class="form-control" @error('foto') is-invalid @enderror
                                     id="foto" name="foto">
                                 <span class="text-danger">{{ $errors->first('foto') }}</span>
+                                <img src="{{ Storage::url($menu->foto) }}" alt="Foto" class="img-thumbnail mt-2"
+                                    style="width: 100px">
                             </div>
                             <div class="form-group mt-1 mb-3">
                                 <label for="nama_makanan">Nama Menu</label>
                                 <input type="text" class="form-control" @error('nama_makanan') is-invalid @enderror
-                                    id="nama_makanan" name="nama_makanan" value="{{ old('nama_makanan') }}"
-                                    placeholder="Nama Menu..">
+                                    id="nama_makanan" name="nama_makanan"
+                                    value="{{ old('nama') ?? $menu->nama_makanan }}" placeholder="Nama Menu..">
                             </div>
                             <div class="form-group mt-1 mb-3">
                                 <label for="harga">Harga Menu</label>
                                 <input type="text" class="form-control" @error('harga') is-invalid @enderror
-                                    id="harga" name="harga" value="{{ old('harga') }}"
+                                    id="harga" name="harga" value="{{ old('harga') ?? $menu->harga }}"
                                     placeholder="Harga Menu..">
                                 <span class="text-danger">{{ $errors->first('harga') }}</span>
                             </div>

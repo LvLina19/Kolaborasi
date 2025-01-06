@@ -6,6 +6,7 @@ use App\Models\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreMenuRequest;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UpdateMenuRequest;
 
 class MenuController extends Controller
@@ -16,17 +17,31 @@ class MenuController extends Controller
 
     public function index()
     {
-        return view('index_admin');
+        // $menus = Menu::all();
+        // if (request()->wantsJson()) {
+        //     return response()->json($menus);
+        // }
+        // return view('index_admin', ['menus' => $menus]);
+    }
+    
+    public function home()
+    {
+        $menus = Menu::all();
+        if (request()->wantsJson()) {
+            return response()->json($menus);
+        }
+        return view('index_admin', ['menus' => $menus]);
     }
     
     public function menus()
     {
-        $menus = Menu::all()->toArray();
+        $menus = Menu::all();
         if (request()->wantsJson()) {
             return response()->json($menus);
         }
-        $data['menu'] = $menus;
-        return view('menu_admin', $data);
+        return view('menu_admin', ['menus' => $menus]);
+        // return view('menu_admin', $menus);
+        // return view('menu_admin');
     }
 
     public function about()
@@ -58,14 +73,11 @@ class MenuController extends Controller
         $menu->foto = $request->file('foto')->store('public'); // mengisi objek path foto
         $menu->save(); // menyimpan data ke database
 
-        Log::info('Data yang diterima: ', $requestData); 
-        Log::info('Menu yang disimpan: ', $menu->toArray());
-
         if ($request->wantsJson()){
             return response()->json($menu);
         }
         flash('Data Sudah Disimpan')->success();
-        return redirect()->route('menu.menu');
+        return redirect()->route('menu.menus');
     }
 
     /**
@@ -79,25 +91,58 @@ class MenuController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Menu $menu)
+    public function edit(string $id)
     {
-        //
+        $data['menu'] = \App\Models\Menu::findOrFail($id);
+        return view('menu_edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMenuRequest $request, Menu $menu)
+    public function update(Request $request, string $id)
     {
-        //
+        $requestData = $request->validate([
+            'foto' => 'required|image|mimes:jpeg,jpg,png|max:5000',
+            'nama_makanan' => 'required|min:3',
+            'harga' => 'required|numeric',
+        ]);
+
+        $menu = \App\Models\Menu::findOrFail($id); // membuat objek kosong di variabel model
+        $menu->fill($requestData); // mengisi var model dengan data yang sudah ada
+        // karena di validasi foto boleh null, maka perlu pengecekkan apakah file foto yang diupload ada
+        // jik ada maka file foto lama dihapus dan diganti dengan file foto baru
+        if ($request->hasFile('foto')) {
+            Storage::delete($menu->foto);
+            $menu->foto = $request->file('foto')->store('public'); // mengisi objek path foto
+        }
+        $menu->save(); // menyimpan data ke database
+        flash('Data Sudah Diupdate')->success();
+        return redirect()->route('menu.menus');
+        // mengarahkan user ke url sebelumnya yaitu /menu/create dengan membawa variabel
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Menu $menu)
+    public function destroy(string $id)
     {
-        //
+        // Cari data pasien berdasarkan ID
+        $menu = \App\Models\Menu::findOrFail($id);
+
+        // Hapus file foto menu dari storage
+        if ($menu->foto != null && Storage::exists($menu->foto)) {
+            Storage::delete($menu->foto);
+        }
+
+        // Hapus data menu dari database
+        $menu->delete();
+
+        // Tampilkan pesan sukses
+        flash('Data menu Berhasil Dihapus')->success();
+
+        // Redirect kembali ke halaman indeks menu
+        return back();
     }
 
 

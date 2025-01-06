@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Menu;
 use Illuminate\Http\Request;
 
 class ArahController extends Controller
@@ -13,7 +14,11 @@ class ArahController extends Controller
 
     public function menuMakanan()
     {
-        return view('menu');
+        $menus = Menu::all();
+        if (request()->wantsJson()) {
+            return response()->json($menus);
+        }
+        return view('menu', ['menus' => $menus]);
     }
 
     public function aboutMakanan()
