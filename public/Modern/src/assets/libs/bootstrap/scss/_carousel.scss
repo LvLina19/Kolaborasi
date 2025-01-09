@@ -62,12 +62,17 @@
     opacity: 0;
     transition-property: opacity;
     transform: none;
-  }
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    z-index: 1;
+}
 
   .carousel-item.active,
   .carousel-item-next.carousel-item-start,
   .carousel-item-prev.carousel-item-end {
-    z-index: 1;
+    z-index: 2;
     opacity: 1;
   }
 

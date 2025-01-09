@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('menus', function (Blueprint $table) {
+        Schema::create('komens', function (Blueprint $table) {
             $table->id();
-            $table->string('foto');
-            $table->string('nama_makanan');
-            $table->text('deskripsi');
-            $table->integer('harga');
+            $table->String('nama');
+            $table->text('komentar');
+            $table->foreignId('menu_id')->constrained('menus')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('menus');
+        Schema::dropIfExists('komens');
     }
 };

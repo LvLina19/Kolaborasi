@@ -182,15 +182,6 @@
                 </a>
             </div>
 
-            {{-- <ul class="filters_menu">
-                <li class="active" data-filter="*">All</li>
-                <li data-filter=".burger">Burger</li>
-                <li data-filter=".pizza">Pizza</li>
-                <li data-filter=".pasta">Pasta</li>
-                <li data-filter=".fries">Fries</li>
-            </ul> --}}
-
-
             <div class="filters-content">
                 <div class="row grid">
 
@@ -202,10 +193,11 @@
                                         <img src="{{ Storage::url($menu->foto) }}" alt="">
                                     </div>
                                     <div class="detail-box">
-                                        <h5>{{ $menu['nama_makanan'] }}</h5>
+                                        <h4>{{ $menu['nama_makanan'] }}</h4>
+                                        <h6>{{ $menu['deskripsi'] }}</h6>
                                         <div class="options">
                                             <h6>Rp. {{ $menu['harga'] }}</h6>
-                                        </div>
+                                        </div> <br>
                                         <a href="/menu/{{ $menu->id }}/edit"
                                             class="btn btn-secondary btn-sm ml-2"><i
                                                 class="fa fa-pencil-square-o"></i></a>
@@ -246,11 +238,6 @@
             </div>
           </div> --}}
                 </div>
-            </div>
-            <div class="btn-box">
-                <a href="">
-                    View More
-                </a>
             </div>
         </div>
     </section>

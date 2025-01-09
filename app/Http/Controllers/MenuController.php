@@ -6,8 +6,9 @@ use App\Models\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreMenuRequest;
+use App\Models\Judul;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\UpdateMenuRequest;
+use App\Models\Komen;
 
 class MenuController extends Controller
 {
@@ -23,16 +24,19 @@ class MenuController extends Controller
         // }
         // return view('index_admin', ['menus' => $menus]);
     }
-    
+
     public function home()
     {
         $menus = Menu::all();
+        $komentar = Komen::all();
+        $juduls = \App\Models\Judul::latest()->paginate(3);
+
         if (request()->wantsJson()) {
             return response()->json($menus);
         }
-        return view('index_admin', ['menus' => $menus]);
+        return view('index_admin', ['menus' => $menus, 'komens' => $komentar, 'juduls' => $juduls]);
     }
-    
+
     public function menus()
     {
         $menus = Menu::all();
@@ -46,7 +50,12 @@ class MenuController extends Controller
 
     public function about()
     {
-        return view('about_admin');
+        $menus = Menu::all();
+        $juduls = Judul::all();
+        if (request()->wantsJson()) {
+            return response()->json($menus);
+        }
+        return view('about_admin', ['menus' => $menus, 'juduls' => $juduls]);
     }
 
     /**
@@ -65,6 +74,7 @@ class MenuController extends Controller
         $requestData = $request->validate([
             'foto' => 'required|image|mimes:jpeg,jpg,png|max:5000',
             'nama_makanan' => 'required|min:3',
+            'deskripsi' => 'required|string',
             'harga' => 'required|numeric',
         ]);
 
@@ -73,7 +83,7 @@ class MenuController extends Controller
         $menu->foto = $request->file('foto')->store('public'); // mengisi objek path foto
         $menu->save(); // menyimpan data ke database
 
-        if ($request->wantsJson()){
+        if ($request->wantsJson()) {
             return response()->json($menu);
         }
         flash('Data Sudah Disimpan')->success();
@@ -105,6 +115,7 @@ class MenuController extends Controller
         $requestData = $request->validate([
             'foto' => 'required|image|mimes:jpeg,jpg,png|max:5000',
             'nama_makanan' => 'required|min:3',
+            'deskripsi' => 'required|string',
             'harga' => 'required|numeric',
         ]);
 
@@ -144,6 +155,4 @@ class MenuController extends Controller
         // Redirect kembali ke halaman indeks menu
         return back();
     }
-
-
 }

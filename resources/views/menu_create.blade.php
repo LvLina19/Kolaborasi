@@ -371,6 +371,14 @@
                                 <input type="text" class="form-control" @error('nama_makanan') is-invalid @enderror
                                     id="nama_makanan" name="nama_makanan" value="{{ old('nama_makanan') }}"
                                     placeholder="Nama Menu..">
+                                <span class="text-danger">{{ $errors->first('nama_makanan') }}</span>
+                            </div>
+                            <div class="form-group mt-1 mb-3">
+                                <label for="deskripsi">Deskripsi Menu</label>
+                                <input type="text" class="form-control" @error('deskripsi') is-invalid @enderror
+                                    id="deskripsi" name="deskripsi" value="{{ old('deskripsi') }}"
+                                    placeholder="Deskripsi Menu..">
+                                <span class="text-danger">{{ $errors->first('deskripsi') }}</span>
                             </div>
                             <div class="form-group mt-1 mb-3">
                                 <label for="harga">Harga Menu</label>

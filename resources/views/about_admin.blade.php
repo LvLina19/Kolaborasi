@@ -187,7 +187,10 @@
                             </h2>
                         </div>
                         <p>
-                            Berdiri sejak tahun 2005 hingga sekarang. <br>
+                            @foreach ($juduls as $judul)
+                                {{ $judul['isi'] }} <br>
+                            @endforeach
+                            {{-- Berdiri sejak tahun 2005 hingga sekarang. <br>
                             Buka dari pukul 07.00 hingga pukul 12.00. <br>
                             Kedai Kopi Family merupakan tempat makanan yang menyediakan sarapan. <br>
                             Menu utama yang dimiliki yaitu Pangsit ayam. <br>
@@ -195,7 +198,7 @@
                             Bihun Goreng, Bubur Ayam/ikan, dan masih banyak lagi. <br>
                             Kedai Kopi Family juga menyediakan minuman seperti : <br> Kopi O, Kopi susu, Teh tawar Teh
                             Manis, Badak, Markisa dan masih banyak lagi <br>
-                            Kedai Kopi Family berada di jalan Satria, no 99. sebelah Hutama Garden. <br>
+                            Kedai Kopi Family berada di jalan Satria, no 99. sebelah Hutama Garden. <br> --}}
                         </p>
                     </div>
                 </div>
@@ -204,6 +207,51 @@
     </section>
 
     <!-- end about section -->
+
+    <!-- book section -->
+    <section class="book_section layout_padding">
+        <div class="container">
+            <div class="heading_container">
+                <h2>
+                    Kolom Komentar
+                </h2>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form_container">
+                        <form action="{{ route('komen.store') }}" method="POST" enctype="multipart/form-data"
+                            class="requires-validation" novalidate>
+                            @csrf
+                            <div>
+                                <input type="text" class="form-control" placeholder="Nama"
+                                    @error('nama') is-invalid @enderror id="nama" name="nama"
+                                    value="{{ old('nama') }}" />
+                            </div>
+                            <div>
+                                <input type="text" class="form-control" placeholder="Komentar"
+                                    @error('komentar') is-invalid @enderror id="komentar" name="komentar"
+                                    value="{{ old('komentar') }}" />
+                            </div>
+                            <div>
+                                <select class="form-control nice-select wide" data-placeholder="Menu" name="menu_id">
+                                    <option value="" disabled selected>Nama Menu ...</option>
+                                    @foreach ($menus as $menu)
+                                        <option value="{{ $menu->id }}" @selected(old('menu_id') == $menu->id)>
+                                            {{ $menu->nama_makanan }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button id="submit" type="submit">
+                                Submit
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end book section -->
 
     <!-- footer section -->
     <footer class="footer_section">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Komen;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 
@@ -23,6 +24,10 @@ class ArahController extends Controller
 
     public function aboutMakanan()
     {
-        return view('about');
+        $menus = Menu::all();
+        if (request()->wantsJson()) {
+            return response()->json($menus);
+        }
+        return view('about_admin', ['menus' => $menus]);
     }
 }

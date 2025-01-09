@@ -159,6 +159,52 @@
 
 <body>
     <div class="hero_area">
+        @guest
+        @else
+            <header class="header_section" style="background-color: #131314; justify-content: center">
+                <div class="container">
+                    <nav class="navbar navbar-expand-lg custom_nav-container sticky-top">
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-right: 15%">
+                            <ul class="navbar-nav mx-auto ">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" onclick="openPopup()"
+                                        style="font-family: Dancing Script;">
+                                        <h4>Tambah Judul</h4>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </header>
+            <!-- Overlay Background -->
+            <div id="popupOverlay"
+                style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999;"
+                onclick="closePopup()"></div>
+
+            <!-- Modal Tambah Judul -->
+            <div id="popupForm"
+                style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.25); z-index: 10000; border-radius: 10px;">
+                <div style="text-align: right;">
+                    <button onclick="closePopup()"
+                        style="background: none; border: none; font-size: 20px; cursor: pointer;">&times;</button>
+                </div>
+                <h5 style="font-family: Dancing Script; text-align: center;">Tambah Judul</h5><br>
+                <form action="{{ route('judul.store') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="isi">Deskripsi</label>
+                        <input class="form-control" @error('isi') is-invalid @enderror id="isi" name="isi"
+                            value="{{ old('isi') }}">
+                        <span class="text-danger">{{ $errors->first('isi') }}</span>
+                    </div>
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="button" class="btn btn-primary" onclick="closePopup()">Batal</button>
+                    </div>
+                </form>
+            </div>
+        @endguest
         <div class="bg-box">
             <img src="build/assets/images/header-pangsit.jpg" alt="">
         </div>
@@ -167,66 +213,52 @@
         <section class="slider_section ">
             <div id="customCarousel1" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="container ">
-                            <div class="row">
-                                <div class="col-md-7 col-lg-6 ">
-                                    <div class="detail-box">
-                                        <h1>
-                                            Kedai Kopi Family
-                                        </h1>
-                                        <p>
-                                            Berdiri sejak tahun 2005 hingga sekarang. <br>
-                                            Buka dari pukul 07.00 hingga pukul 12.00. <br>
-                                            Kedai Kopi Family merupakan tempat makanan yang menyediakan sarapan.
-                                        </p>
+                    @if (Auth::guest())
+                        @foreach ($juduls as $judul)
+                            <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                <div class="container ">
+                                    <div class="row">
+                                        <div class="col-md-7 col-lg-6 ">
+                                            <div class="detail-box">
+                                                <h1>
+                                                    Kedai Kopi Family
+                                                </h1>
+                                                <p>
+                                                    {{ $judul['isi'] }} <br>
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item ">
-                        <div class="container ">
-                            <div class="row">
-                                <div class="col-md-7 col-lg-6 ">
-                                    <div class="detail-box">
-                                        <h1>
-                                            Kedai Kopi Family
-                                        </h1>
-                                        <p>
-                                            Memiliki menu yang beragam <br>
-                                            Harga yang sangat terjangkau <br>
-                                            Tempat yang nyaman dan bersih
-                                        </p>
+                        @endforeach
+                    @elseif (Auth::user())
+                        @foreach ($juduls as $judul)
+                            <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                <div class="container ">
+                                    <div class="row">
+                                        <div class="col-md-7 col-lg-6 ">
+                                            <div class="detail-box">
+                                                <h1>
+                                                    Kedai Kopi Family
+                                                </h1>
+                                                <p>
+                                                    {{ $judul['isi'] }} <br>
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="container ">
-                            <div class="row">
-                                <div class="col-md-7 col-lg-6 ">
-                                    <div class="detail-box">
-                                        <h1>
-                                            Kedai Kopi Family
-                                        </h1>
-                                        <p>
-                                            Menu utama yang dimiliki yaitu Pangsit ayam. <br>
-                                            Dan beberapa menu lainnya yaitu : <br> TomYam, LoMie, MiSua, Mie Goreng,
-                                            Bihun Goreng, Bubur Ayam/ikan, dan masih banyak lagi.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        @endforeach
+                    @endif
                 </div>
                 <div class="container">
                     <ol class="carousel-indicators">
-                        <li data-target="#customCarousel1" data-slide-to="0" class="active"></li>
-                        <li data-target="#customCarousel1" data-slide-to="1"></li>
-                        <li data-target="#customCarousel1" data-slide-to="2"></li>
+                        @foreach ($juduls as $index => $juduls)
+                            <li data-target="#customCarousel1" data-slide-to="<?= $index ?>"
+                                class="<?= $index === 0 ? 'active' : '' ?>"></li>
+                        @endforeach
                     </ol>
                 </div>
             </div>
@@ -262,7 +294,8 @@
                                         <img src="{{ Storage::url($menu->foto) }}" alt="">
                                     </div>
                                     <div class="detail-box">
-                                        <h5>{{ $menu['nama_makanan'] }}</h5>
+                                        <h4>{{ $menu['nama_makanan'] }}</h4>
+                                        <h6>{{ $menu['deskripsi'] }}</h6>
                                         <div class="options">
                                             <h6>Rp. {{ $menu['harga'] }}</h6>
                                         </div>
@@ -272,11 +305,6 @@
                         </div>
                     @endforeach
                 </div>
-            </div>
-            <div class="btn-box">
-                <a href="">
-                    View More
-                </a>
             </div>
         </div>
     </section>
@@ -319,6 +347,115 @@
     </section>
 
     <!-- end about section -->
+
+    <!-- book section -->
+    <section class="book_section layout_padding">
+        <div class="container">
+            <div class="heading_container">
+                <h2>
+                    Kolom Komentar
+                </h2>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form_container">
+                        <form action="{{ route('komen.store') }}" method="POST" enctype="multipart/form-data"
+                            class="requires-validation" novalidate>
+                            @csrf
+                            <div>
+                                <input type="text" class="form-control" placeholder="Nama"
+                                    @error('nama') is-invalid @enderror id="nama" name="nama"
+                                    value="{{ old('nama') }}" />
+                            </div>
+                            <div>
+                                <input type="text" class="form-control" placeholder="Komentar"
+                                    @error('komentar') is-invalid @enderror id="komentar" name="komentar"
+                                    value="{{ old('komentar') }}" />
+                            </div>
+                            <div>
+                                <select class="form-control nice-select wide" data-placeholder="Menu" name="menu_id">
+                                    <option value="" disabled selected>Nama Menu ...</option>
+                                    @foreach ($menus as $menu)
+                                        <option value="{{ $menu->id }}" @selected(old('menu_id') == $menu->id)>
+                                            {{ $menu->nama_makanan }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button id="submit" type="submit">
+                                Submit
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end book section -->
+
+    <!-- client section -->
+
+    <section class="client_section layout_padding-bottom">
+        <div class="container">
+            <div class="heading_container heading_center psudo_white_primary mb_45">
+                <h2>
+                    What Says Our Customers
+                </h2>
+            </div>
+            <div class="carousel-wrap row ">
+                <div class="owl-carousel client_owl-carousel">
+                    @if (Auth::guest())
+                        @foreach ($komens as $komen)
+                            <div class="item">
+                                <div class="box">
+                                    <div class="detail-box">
+                                        <h5><b>{{ $komen->menu->nama_makanan }}</b></h5>
+                                        <p>
+                                            {{ $komen['komentar'] }}
+                                        </p>
+                                        <h6>
+                                            By : {{ $komen['nama'] }}
+                                        </h6>
+                                    </div>
+                                    <div class="img-box">
+                                        <img src="{{ Storage::url($komen->menu->foto) }}" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @elseif (Auth::user())
+                        @foreach ($komens as $komen)
+                            <div class="item">
+                                <div class="box">
+                                    <div class="detail-box">
+                                        <h5><b>{{ $komen->menu->nama_makanan }}</b></h5>
+                                        <p>
+                                            {{ $komen['komentar'] }}
+                                        </p>
+                                        <h6>
+                                            By : {{ $komen['nama'] }}
+                                        </h6><br>
+                                        <!-- Tombol Hapus -->
+                                        <form action="/komen/{{ $komen->id }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('delete')
+                                            <button class="btn btn-secondary btn-sm ml-2"
+                                                onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"><i
+                                                    class="fa fa-trash" aria-hidden="true"></i></button>
+                                        </form>
+                                    </div>
+                                    <div class="img-box">
+                                        <img src="{{ Storage::url($komen->menu->foto) }}" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end client section -->
 
     <!-- footer section -->
     <footer class="footer_section">
@@ -416,6 +553,16 @@
 
         function confirmLogout() {
             document.getElementById('logout-form').submit();
+        }
+
+        function openPopup() {
+            document.getElementById('popupForm').style.display = 'block';
+            document.getElementById('popupOverlay').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popupForm').style.display = 'none';
+            document.getElementById('popupOverlay').style.display = 'none';
         }
     </script>
 </body>

@@ -123,7 +123,8 @@
                                         <img src="{{ Storage::url($menu->foto) }}" alt="">
                                     </div>
                                     <div class="detail-box">
-                                        <h5>{{ $menu['nama_makanan'] }}</h5>
+                                        <h4>{{ $menu['nama_makanan'] }}</h4>
+                                        <h6>{{ $menu['deskripsi'] }}</h6>
                                         <div class="options">
                                             <h6>Rp. {{ $menu['harga'] }}</h6>
                                         </div>
